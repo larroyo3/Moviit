@@ -3,6 +3,7 @@ package fr.acyll.moviit.navigation
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.composable
 
 @Composable
 fun AppNavigation(
@@ -10,11 +11,13 @@ fun AppNavigation(
 ) {
     NavHost(
         navController = navController,
-        startDestination = NavGraphs.startGraph.graphRoute,
-        route = NavGraphs.route
+        route = NavGraphs.ROOT,
+        startDestination = NavGraphs.ONBOARDING
     ) {
-        NavGraphs.navGraphs.forEach { navGraph ->
-            navGraph.buildNavGraph(navController = navController, this)
-        }
+        onboardingGraph(navController = navController)
+
+        //composable(route = Graph.MAIN) {
+          //  MainScreen()
+        //}
     }
 }

@@ -8,37 +8,32 @@ import androidx.navigation.navigation
 import fr.acyll.moviit.features.main.home.HomeScreen
 import fr.acyll.moviit.features.main.map.MapScreen
 import fr.acyll.moviit.features.main.profile.ProfileScreen
+import fr.acyll.moviit.features.onboarding.auth.AuthScreen
+import fr.acyll.moviit.features.onboarding.splash.SplashScreen
 
-object HomeGraph: BaseNavGraph {
-    override val startDestination: String = Screen.Home.route
-    override val graphRoute: String = "home"
-
-    override fun buildNavGraph(
-        navController: NavHostController,
-        navGraphBuilder: NavGraphBuilder
+fun NavGraphBuilder.home(
+    navController: NavHostController,
+) {
+    navigation(
+        route = NavGraphs.HOME,
+        startDestination = Screen.Splash.route
     ) {
-        navGraphBuilder.navigation(
-            startDestination = OnboardingGraph.startDestination,
-            route = OnboardingGraph.graphRoute
+        composable(
+            route = Screen.Home.route
         ) {
+            HomeScreen()
+        }
 
-            composable(
-                route = Screen.Home.route
-            ) {
-                HomeScreen()
-            }
+        composable(
+            route = Screen.Map.route
+        ) {
+            MapScreen()
+        }
 
-            composable(
-                route = Screen.Map.route
-            ) {
-                MapScreen()
-            }
-
-            composable(
-                route = Screen.Profile.route
-            ) {
-                ProfileScreen()
-            }
+        composable(
+            route = Screen.Profile.route
+        ) {
+            ProfileScreen()
         }
     }
 }

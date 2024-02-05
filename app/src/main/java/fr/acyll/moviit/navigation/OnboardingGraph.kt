@@ -1,5 +1,6 @@
 package fr.acyll.moviit.navigation
 
+import android.content.Context
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -8,30 +9,23 @@ import androidx.navigation.navigation
 import fr.acyll.moviit.features.onboarding.auth.AuthScreen
 import fr.acyll.moviit.features.onboarding.splash.SplashScreen
 
-object OnboardingGraph: BaseNavGraph {
-    override val startDestination: String = Screen.Splash.route
-    override val graphRoute: String = "onboarding"
-
-    override fun buildNavGraph(
-        navController: NavHostController,
-        navGraphBuilder: NavGraphBuilder
+fun NavGraphBuilder.onboardingGraph(
+    navController: NavHostController,
+) {
+    navigation(
+        route = NavGraphs.ONBOARDING,
+        startDestination = Screen.Splash.route
     ) {
-        navGraphBuilder.navigation(
-            startDestination = startDestination,
-            route = graphRoute
+        composable(
+            route = Screen.Splash.route
         ) {
+            SplashScreen()
+        }
 
-            composable(
-                route = Screen.Splash.route
-            ) {
-                SplashScreen()
-            }
-
-            composable(
-                route = Screen.Auth.route
-            ) {
-                AuthScreen()
-            }
+        composable(
+            route = Screen.Auth.route
+        ) {
+            AuthScreen()
         }
     }
 }
