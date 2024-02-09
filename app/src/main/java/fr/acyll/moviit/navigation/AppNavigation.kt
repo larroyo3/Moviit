@@ -16,8 +16,8 @@ fun AppNavigation(
     ) {
         onboardingGraph(navController = navController)
 
-        //composable(route = Graph.MAIN) {
-          //  MainScreen()
-        //}
+        composable(route = NavGraphs.HOME) {
+
+        }
     }
 }

@@ -8,8 +8,6 @@ import androidx.navigation.navigation
 import fr.acyll.moviit.features.main.home.HomeScreen
 import fr.acyll.moviit.features.main.map.MapScreen
 import fr.acyll.moviit.features.main.profile.ProfileScreen
-import fr.acyll.moviit.features.onboarding.auth.AuthScreen
-import fr.acyll.moviit.features.onboarding.splash.SplashScreen
 
 fun NavGraphBuilder.home(
     navController: NavHostController,

@@ -19,13 +19,25 @@ fun NavGraphBuilder.onboardingGraph(
         composable(
             route = Screen.Splash.route
         ) {
-            SplashScreen()
+            SplashScreen(
+                navigateToNextScreen = {
+                    navController.navigate(Screen.Auth.route) {
+                        popUpTo(Screen.Splash.route) {
+                            inclusive = true
+                        }
+                    }
+                }
+            )
         }
 
         composable(
             route = Screen.Auth.route
         ) {
-            AuthScreen()
+            AuthScreen(
+                navigateToHomeScreen = {
+                    navController.navigate(NavGraphs.HOME)
+                }
+            )
         }
     }
 }

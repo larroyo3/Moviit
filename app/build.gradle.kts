@@ -72,4 +72,7 @@ dependencies {
     implementation("androidx.compose.material3:material3:1.1.2")
     implementation("androidx.compose.material3:material3-window-size-class:1.1.2")
 
+    // status bar color
+    implementation("com.google.accompanist:accompanist-systemuicontroller:0.27.0")
+
 }
