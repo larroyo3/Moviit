@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import fr.acyll.moviit.R
 import fr.acyll.moviit.ui.theme.MoviitTheme
+import fr.acyll.moviit.ui.theme.OldLace
 import kotlinx.coroutines.delay
 
 @Composable
@@ -52,7 +53,6 @@ fun SplashScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(top = it.calculateTopPadding(), bottom = it.calculateBottomPadding())
-                .background(color = MaterialTheme.colorScheme.background)
         ) {
             ScreenContent(scale)
         }
