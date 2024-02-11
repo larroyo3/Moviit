@@ -4,6 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
+import fr.acyll.moviit.navigation.graphs.MainGraph
+import fr.acyll.moviit.navigation.graphs.onboardingGraph
 
 @Composable
 fun AppNavigation(
@@ -16,8 +18,8 @@ fun AppNavigation(
     ) {
         onboardingGraph(navController = navController)
 
-        //composable(route = Graph.MAIN) {
-          //  MainScreen()
-        //}
+        composable(route = NavGraphs.MAIN) {
+            MainGraph()
+        }
     }
 }
