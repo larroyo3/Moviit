@@ -31,5 +31,9 @@ fun BottomNavGraph(
         composable(route = BottomNavScreen.Profile.route) {
             ProfileScreen()
         }
+
+        composable(route = BottomNavScreen.Settings.route) {
+            MapScreen()
+        }
     }
 }
