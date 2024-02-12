@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1002693502918",
+    "project_id": "moviit",
+    "storage_bucket": "moviit.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1002693502918:android:4670a4ff6fac6f2d5f34c7",
+        "android_client_info": {
+          "package_name": "fr.acyll.moviit"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAnv0Yu1l4gYxc4CKKLCtEoiTFUSYnGy0o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

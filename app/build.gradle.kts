@@ -1,6 +1,10 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+
+    // Google services Gradle plugin
+    id("com.google.gms.google-services")
+
 }
 
 android {
@@ -78,5 +82,11 @@ dependencies {
     // material symbole
     implementation("androidx.compose.material:material-icons-extended:1.6.1")
     implementation(kotlin("reflect"))
+
+    // Import the Firebase BoM
+    implementation(platform("com.google.firebase:firebase-bom:32.7.2"))
+
+    // When using the BoM, don't specify versions in Firebase dependencies
+    implementation("com.google.firebase:firebase-analytics")
 
 }
