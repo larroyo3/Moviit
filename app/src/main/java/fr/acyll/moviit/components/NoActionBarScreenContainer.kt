@@ -19,7 +19,6 @@ fun NoActionBarScreenContainer(
     isLoading: Boolean = false,
     content: @Composable (PaddingValues) -> Unit
 ) {
-
     Scaffold { paddingValues ->
         Surface(
             modifier = Modifier
@@ -34,8 +33,10 @@ fun NoActionBarScreenContainer(
                 content(paddingValues)
                 if (isLoading) {
                     CircularProgressIndicator(
+                        progress = {
+                            0.7F
+                        },
                         modifier = Modifier.align(Alignment.Center),
-                        progress = 0.7F
                     )
                 }
             }

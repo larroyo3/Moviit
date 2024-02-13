@@ -34,6 +34,7 @@ fun ScreenContent(
           .fillMaxSize()
           .padding(16.dp)
     ) {
+
         Spacer(modifier = Modifier.weight(1f))
         PrimaryButton(
             label = stringResource(id = R.string.continuer),
@@ -46,9 +47,8 @@ fun ScreenContent(
 @Preview
 @Composable
 fun MainPreview() {
-    MoviitTheme {
-        AuthScreen(
-            navigateToHomeScreen = {}
-        )
-    }
+    AuthScreen(
+        navigateToHomeScreen = {}
+    )
+
 }

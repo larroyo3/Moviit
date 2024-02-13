@@ -8,6 +8,7 @@ import androidx.navigation.compose.composable
 import fr.acyll.moviit.features.main.home.HomeScreen
 import fr.acyll.moviit.features.main.map.MapScreen
 import fr.acyll.moviit.features.main.profile.ProfileScreen
+import fr.acyll.moviit.features.main.settings.SettingsScreen
 import fr.acyll.moviit.navigation.BottomNavScreen
 
 @Composable
@@ -33,7 +34,7 @@ fun BottomNavGraph(
         }
 
         composable(route = BottomNavScreen.Settings.route) {
-            MapScreen()
+            SettingsScreen()
         }
     }
 }
