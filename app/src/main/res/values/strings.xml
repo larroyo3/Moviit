@@ -7,5 +7,5 @@
     <string name="settings">Settings</string>
     <string name="log_out">Déconnexion</string>
     <string name="auth_title">L\'aventure ne fait que commencer. Bienvunue sur Moviit !</string>
-    <string name="auth_desc">Rien de plus simple : clique sur le bouton pour te créer un compte ou te connecter. Cela va être un jeux d\'enfant</string>
+    <string name="auth_desc">Rien de plus simple : clique sur le bouton pour te créer un compte ou te connecter.</string>
 </resources>
