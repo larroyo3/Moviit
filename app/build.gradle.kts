@@ -95,10 +95,13 @@ dependencies {
 
     implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
     implementation ("androidx.lifecycle:lifecycle-runtime-compose:2.7.0")
-    implementation ("io.coil-kt:coil-compose:2.2.2")
+    implementation ("io.coil-kt:coil-compose:2.5.0")
 
     // koin
     implementation ("io.insert-koin:koin-androidx-compose:3.2.0")
 
+    // maps
+    implementation ("com.google.maps.android:maps-compose:2.7.2")
+    implementation ("com.google.android.gms:play-services-maps:18.2.0")
 
 }

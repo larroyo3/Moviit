@@ -13,6 +13,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Moviit"
         tools:targetApi="31">
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyD6KZFddbK0Q87-ysHDNXr9LMj6Zn0AsDk" />
+
+
         <activity
             android:name=".MainActivity"
             android:exported="true">
