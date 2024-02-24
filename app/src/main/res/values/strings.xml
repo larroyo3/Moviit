@@ -8,4 +8,6 @@
     <string name="log_out">Déconnexion</string>
     <string name="auth_title">L\'aventure ne fait que commencer. Bienvunue sur Moviit !</string>
     <string name="auth_desc">Rien de plus simple : clique sur le bouton pour te créer un compte ou te connecter.</string>
+
+    <string name="web_client_id">1002693502918-feph49j3jhchb919kldqdor3pg7phe5s.apps.googleusercontent.com</string>
 </resources>
