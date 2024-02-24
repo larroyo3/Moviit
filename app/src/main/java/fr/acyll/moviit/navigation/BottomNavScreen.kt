@@ -33,9 +33,10 @@ sealed class BottomNavScreen(
         selectedIcon = Icons.Default.Explore
     )
 
-    data object Profile: BottomNavScreen(
-        route = "profile_screen",
-        title = R.string.profile,
+    // c'est nul mais les élement d'une bottom nav screen sont dans l'ordre alaphabetique
+    data object P_Account: BottomNavScreen(
+        route = "account_screen",
+        title = R.string.account,
         icon = Icons.Outlined.Person,
         selectedIcon = Icons.Default.Person
     )

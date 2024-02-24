@@ -50,7 +50,6 @@ fun NavGraphBuilder.onboardingGraph(
                             }
                         }
                     }
-
                 }
             )
         }
@@ -78,7 +77,7 @@ fun NavGraphBuilder.onboardingGraph(
                 viewModel = authViewModel,
                 navigateToHomeScreen = {
                     navController.navigate(NavGraphs.MAIN) {
-                        popUpTo(Screen.Splash.route) {
+                        popUpTo(Screen.Auth.route) {
                             inclusive = true
                         }
                     }

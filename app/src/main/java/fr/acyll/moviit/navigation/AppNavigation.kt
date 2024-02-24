@@ -11,15 +11,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.NavHost
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
-import fr.acyll.moviit.features.onboarding.auth.AuthEvent
-import fr.acyll.moviit.features.onboarding.auth.AuthScreen
-import fr.acyll.moviit.features.onboarding.auth.AuthViewModel
 import fr.acyll.moviit.features.onboarding.auth.GoogleAuthUiClient
-import fr.acyll.moviit.features.onboarding.splash.SplashScreen
 import fr.acyll.moviit.navigation.graphs.MainGraph
 import fr.acyll.moviit.navigation.graphs.onboardingGraph
-import kotlinx.coroutines.launch
-import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun AppNavigation(
