@@ -4,9 +4,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Explore
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.outlined.Explore
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.outlined.Settings
 
 import androidx.compose.ui.graphics.vector.ImageVector
 import fr.acyll.moviit.R
@@ -31,10 +33,18 @@ sealed class BottomNavScreen(
         selectedIcon = Icons.Default.Explore
     )
 
-    data object Profile: BottomNavScreen(
-        route = "profile_screen",
-        title = R.string.profile,
+    // c'est nul mais les élement d'une bottom nav screen sont dans l'ordre alaphabetique
+    data object P_Account: BottomNavScreen(
+        route = "account_screen",
+        title = R.string.account,
         icon = Icons.Outlined.Person,
         selectedIcon = Icons.Default.Person
+    )
+
+    data object Settings: BottomNavScreen(
+        route = "settings_screen",
+        title = R.string.settings,
+        icon = Icons.Outlined.Settings,
+        selectedIcon = Icons.Default.Settings
     )
 }

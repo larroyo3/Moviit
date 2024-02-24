@@ -14,18 +14,21 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import fr.acyll.moviit.navigation.BottomNavScreen
+import fr.acyll.moviit.navigation.Screen
 
 @Composable
-fun MainGraph() {
+fun MainGraph(rootNavController: NavHostController) {
     val navController = rememberNavController()
 
     Scaffold(
         bottomBar = { BottomBar(navController = navController)}
     ) {
         BottomNavGraph(
+            rootNavController = rootNavController,
             navController = navController,
             modifier = Modifier.padding(top = it.calculateTopPadding(), bottom = it.calculateBottomPadding())
         )

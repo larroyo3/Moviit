@@ -8,6 +8,7 @@
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_moviit"
         android:label="@string/app_name"
+        android:name=".App"
         android:roundIcon="@mipmap/ic_moviit_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Moviit"

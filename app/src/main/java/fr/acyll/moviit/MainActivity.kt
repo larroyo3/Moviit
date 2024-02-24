@@ -7,11 +7,22 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.rememberNavController
+import com.google.android.gms.auth.api.identity.Identity
+import fr.acyll.moviit.features.onboarding.auth.GoogleAuthUiClient
 import fr.acyll.moviit.navigation.AppNavigation
 import fr.acyll.moviit.ui.theme.MoviitTheme
 
 class MainActivity : ComponentActivity() {
+
+    private val googleAuthUiClient by lazy {
+        GoogleAuthUiClient(
+            context = applicationContext,
+            oneTapClient = Identity.getSignInClient(applicationContext)
+        )
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -23,7 +34,11 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    AppNavigation(navController = navController)
+                    AppNavigation(
+                        navController = navController,
+                        lifecycleScope = lifecycleScope,
+                        googleAuthUiClient = googleAuthUiClient
+                    )
                 }
             }
         }
