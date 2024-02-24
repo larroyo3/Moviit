@@ -3,6 +3,7 @@ package fr.acyll.moviit.navigation.graphs
 import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -19,6 +20,7 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun BottomNavGraph(
+    rootNavController: NavHostController,
     navController: NavHostController,
     modifier: Modifier
 ) {
@@ -53,7 +55,11 @@ fun BottomNavGraph(
             SettingsScreen(
                 viewModel = settingsViewModel,
                 redirectToOnboarding = {
-                    navController.navigate(NavGraphs.ONBOARDING)
+                    rootNavController.navigate(Screen.Auth.route) {
+                        popUpTo(NavGraphs.MAIN) {
+                            inclusive = true
+                        }
+                    }
                 }
             )
         }
