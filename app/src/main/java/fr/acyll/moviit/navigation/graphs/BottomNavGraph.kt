@@ -7,6 +7,8 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import fr.acyll.moviit.features.contribute.ContributeScreen
+import fr.acyll.moviit.features.contribute.ContributeViewModel
 import fr.acyll.moviit.features.main.home.HomeScreen
 import fr.acyll.moviit.features.main.map.MapScreen
 import fr.acyll.moviit.features.main.account.AccountScreen
@@ -60,7 +62,20 @@ fun BottomNavGraph(
                             inclusive = true
                         }
                     }
+                },
+                navigateToScreen = {
+                    navController.navigate(it)
                 }
+            )
+        }
+
+        composable(
+            route = Screen.Contribute.route
+        ) {
+            val contributeViewModel: ContributeViewModel = koinViewModel()
+
+            ContributeScreen(
+                viewModel = contributeViewModel
             )
         }
     }

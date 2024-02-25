@@ -10,4 +10,6 @@
     <string name="auth_desc">Rien de plus simple : clique sur le bouton pour te créer un compte ou te connecter.</string>
 
     <string name="web_client_id">1002693502918-feph49j3jhchb919kldqdor3pg7phe5s.apps.googleusercontent.com</string>
+    <string name="contribute">Contribuer</string>
+    <string name="add_shooting_location">Ajouter un lieu de tournage</string>
 </resources>
