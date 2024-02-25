@@ -12,8 +12,10 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
+/*
 class ContributeViewModel: ViewModel() {
 
     private val _state = MutableStateFlow(ContributeState())
@@ -22,9 +24,44 @@ class ContributeViewModel: ViewModel() {
     private val _effect = MutableSharedFlow<ContributeEffect>()
     val effect = _effect.asSharedFlow()
 
-    fun onEvent(even: ContributeEvent) {
-        when (even) {
+    fun onEvent(event: ContributeEvent) {
+        when (event) {
+            is ContributeEvent.OnMovieTitleChange -> {
+                _state.update { it.copy(publication = it.publication.copy(movieTitle = event.value)) }
+            }
+
+            is ContributeEvent.OnMovieDirectorChange -> _state.update { it.copy(
+                    publication = it.publication.copy(
+                        movieDirector = event.value
+                    )
+                )
+            }
+
+            is ContributeEvent.OnMovieReleaseDateChange -> {
+                _state.update { it.copy(publication = it.publication.copy(releaseDate = event.value)) }
+            }
+
+            is ContributeEvent.OnSynopsisChange -> {
+                _state.update { it.copy(publication = it.publication.copy(synopsis = event.value)) }
+            }
+
             is ContributeEvent.OnTitleChange -> {
+                _state.update { it.copy(publication = it.publication.copy(title = event.value)) }
+            }
+
+            is ContributeEvent.OnDescriptionChange -> {
+                _state.update { it.copy(publication = it.publication.copy(description = event.value)) }
+            }
+
+            is ContributeEvent.OnLatitudeChange -> {
+                _state.update { it.copy(publication = it.publication.copy(latitude = event.value)) }
+            }
+
+            is ContributeEvent.OnLongitudesChange -> {
+                _state.update { it.copy(publication = it.publication.copy(longitude = event.value)) }
+            }
+
+            is ContributeEvent.OnAddClick -> {
 
             }
         }
@@ -36,3 +73,5 @@ class ContributeViewModel: ViewModel() {
         }
     }
 }
+
+ */

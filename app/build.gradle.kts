@@ -91,7 +91,8 @@ dependencies {
     // When using the BoM, don't specify versions in Firebase dependencies
     implementation("com.google.firebase:firebase-analytics")
     implementation ("com.google.firebase:firebase-auth-ktx:22.3.1")
-    implementation ("com.google.android.gms:play-services-auth:21.0.0")
+    implementation ("com.google.firebase:firebase-auth-ktx:22.3.1")
+    implementation ("com.google.firebase:firebase-firestore-ktx:23.0.0")
 
     implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
     implementation ("androidx.lifecycle:lifecycle-runtime-compose:2.7.0")
@@ -101,7 +102,7 @@ dependencies {
     implementation ("io.insert-koin:koin-androidx-compose:3.2.0")
 
     // maps
-    implementation ("com.google.maps.android:maps-compose:2.7.2")
+    implementation ("com.google.maps.android:maps-compose:2.14.0")
     implementation ("com.google.android.gms:play-services-maps:18.2.0")
 
 }

@@ -1,7 +1,8 @@
 package fr.acyll.moviit.di
 
-import fr.acyll.moviit.features.contribute.ContributeViewModel
 import fr.acyll.moviit.features.main.account.AccountViewModel
+import fr.acyll.moviit.features.main.home.HomeViewModel
+import fr.acyll.moviit.features.main.map.MapViewModel
 import fr.acyll.moviit.features.main.settings.SettingsViewModel
 import fr.acyll.moviit.features.onboarding.auth.AuthViewModel
 import org.koin.android.ext.koin.androidContext
@@ -14,7 +15,9 @@ val appModule = module {
     // Feature Home
     viewModel { AccountViewModel(context = androidContext()) }
     viewModel { SettingsViewModel(context = androidContext())}
+    viewModel { HomeViewModel() }
+    viewModel { MapViewModel() }
 
     // Feature Contribute
-    viewModel { ContributeViewModel() }
+    //viewModel { ContributeViewModel() }
 }

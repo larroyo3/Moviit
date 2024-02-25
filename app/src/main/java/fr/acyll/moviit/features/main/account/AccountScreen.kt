@@ -1,5 +1,6 @@
 package fr.acyll.moviit.features.main.account
 
+import android.content.Context
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -23,6 +24,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
+import coil.request.ImageRequest
+import fr.acyll.moviit.R
 import fr.acyll.moviit.components.NoActionBarScreenContainer
 import fr.acyll.moviit.domain.model.onboarding.UserData
 import fr.acyll.moviit.features.onboarding.auth.AuthState
@@ -32,17 +35,20 @@ fun AccountScreen(
     viewModel: AccountViewModel,
 ) {
     val state: AccountState by viewModel.state.collectAsStateWithLifecycle()
+    val context = LocalContext.current
 
     NoActionBarScreenContainer {
         ScreenContent(
-            state = state
+            state = state,
+            context = context
         )
     }
 }
 
 @Composable
 fun ScreenContent(
-    state: AccountState
+    state: AccountState,
+    context: Context
 ) {
     Column(
         modifier = Modifier
@@ -55,10 +61,15 @@ fun ScreenContent(
             verticalAlignment = Alignment.CenterVertically
         ) {
             AsyncImage(
-                model = state.userData?.profilePictureUrl,
+                model = ImageRequest
+                    .Builder(context)
+                    .data(state.userData?.profilePictureUrl)
+                    .crossfade(true)
+                    .placeholder(R.drawable.ic_account)
+                    .build(),
                 contentDescription = "Profile picture",
                 modifier = Modifier
-                    .size(100.dp)
+                    .size(75.dp)
                     .clip(CircleShape),
                 contentScale = ContentScale.Crop
             )
@@ -76,6 +87,7 @@ fun ScreenContent(
 @Composable
 fun MainPreview() {
     ScreenContent(
+        context = LocalContext.current,
         state = AccountState(
             userData = UserData(
                 userId = "12",

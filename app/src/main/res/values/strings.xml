@@ -12,4 +12,18 @@
     <string name="web_client_id">1002693502918-feph49j3jhchb919kldqdor3pg7phe5s.apps.googleusercontent.com</string>
     <string name="contribute">Contribuer</string>
     <string name="add_shooting_location">Ajouter un lieu de tournage</string>
+    <string name="add">Ajouter</string>
+    <string name="movie_information">Information sur le film</string>
+    <string name="confirm">Confirmer</string>
+    <string name="title">Titre</string>
+    <string name="director">Réalisateur</string>
+    <string name="release_date">Date de sortie</string>
+    <string name="synopsis">Synopsis</string>
+    <string name="shooting_place">Lieu de tournage</string>
+    <string name="description">Description</string>
+    <string name="localisation">Localisation</string>
+    <string name="latitude">Latitude</string>
+    <string name="longitude">Longitude</string>
+    <string name="close">Fermer</string>
+    <string name="publish_memories">Ajouter un souvenir</string>
 </resources>
