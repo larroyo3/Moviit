@@ -13,6 +13,8 @@ import fr.acyll.moviit.features.main.home.HomeViewModel
 import fr.acyll.moviit.features.main.map.MapViewModel
 import fr.acyll.moviit.features.main.settings.SettingsScreen
 import fr.acyll.moviit.features.main.settings.SettingsViewModel
+import fr.acyll.moviit.features.publish.PublishScreen
+import fr.acyll.moviit.features.publish.PublishViewModel
 import fr.acyll.moviit.navigation.BottomNavScreen
 import fr.acyll.moviit.navigation.NavGraphs
 import fr.acyll.moviit.navigation.Screen
@@ -41,7 +43,10 @@ fun BottomNavGraph(
             val mapViewModel: MapViewModel = koinViewModel()
 
             MapScreen(
-                viewModel = mapViewModel
+                viewModel = mapViewModel,
+                navigateToScreen = {
+                    navController.navigate(it)
+                }
             )
         }
 
@@ -71,6 +76,19 @@ fun BottomNavGraph(
                 },
                 navigateToScreen = {
                     //navController.navigate(it)
+                }
+            )
+        }
+
+        composable(
+            route = Screen.Publish.route
+        ) {
+            val publishViewModel: PublishViewModel = koinViewModel()
+
+            PublishScreen(
+                viewModel = publishViewModel,
+                onNavigateBack = {
+                    navController.popBackStack()
                 }
             )
         }

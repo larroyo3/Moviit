@@ -16,10 +16,11 @@ import fr.acyll.moviit.domain.model.ShootingPlace
 @Composable
 fun MarkerBottomSheet(
     onDismiss: () -> Unit,
-    publication: ShootingPlace
+    onPublishClick: () -> Unit,
+    shootingPlace: ShootingPlace
 ) {
     BottomSheet(
-        title = publication.title,
+        title = shootingPlace.title,
         onDismiss = onDismiss,
         body = {
                Text(text = "coucou")
@@ -27,7 +28,10 @@ fun MarkerBottomSheet(
         footer = {
             PrimaryButton(
                 label = stringResource(id = R.string.publish_memories),
-                onClick = onDismiss
+                onClick = {
+                    onDismiss()
+                    onPublishClick()
+                }
             )
             Spacer(modifier = Modifier.height(16.dp))
             SecondaryButton(

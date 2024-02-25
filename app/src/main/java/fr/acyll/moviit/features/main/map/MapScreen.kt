@@ -23,11 +23,13 @@ import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
 import fr.acyll.moviit.components.NoActionBarScreenContainer
 import fr.acyll.moviit.features.main.map.components.MarkerBottomSheet
+import fr.acyll.moviit.navigation.Screen
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun MapScreen(
-    viewModel: MapViewModel
+    viewModel: MapViewModel,
+    navigateToScreen: (String) -> Unit
 ) {
     val state: MapState by viewModel.state.collectAsStateWithLifecycle()
 
@@ -46,6 +48,10 @@ fun MapScreen(
             state = state,
             onEvent = {
                 viewModel.onEvent(it)
+            },
+            onNavigateToScreen = {
+                // TODO : add event on publish click and effect navigate to screen
+                navigateToScreen(it)
             }
         )
     }
@@ -54,7 +60,8 @@ fun MapScreen(
 @Composable
 fun ScreenContent(
     state: MapState,
-    onEvent: (MapEvent) -> Unit
+    onEvent: (MapEvent) -> Unit,
+    onNavigateToScreen: (String) -> Unit
 ) {
     val cameraPositionState = rememberCameraPositionState {
         position = CameraPosition.fromLatLngZoom(LatLng(45.763420, 4.834277), 9f)
@@ -100,7 +107,8 @@ fun ScreenContent(
         if (state.showMarkerBottomSheet) {
             MarkerBottomSheet(
                 onDismiss = { onEvent(MapEvent.OnDismissMarkerBottomSheet) },
-                publication = state.selectedShootingPlace!!
+                onPublishClick = { onNavigateToScreen(Screen.Publish.route) },
+                shootingPlace = state.selectedShootingPlace!!
             )
         }
     }
@@ -111,6 +119,7 @@ fun ScreenContent(
 fun MainPreview() {
     ScreenContent(
         state = MapState(),
-        onEvent = {}
+        onEvent = {},
+        onNavigateToScreen = {}
     )
 }

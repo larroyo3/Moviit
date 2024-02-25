@@ -26,4 +26,6 @@
     <string name="longitude">Longitude</string>
     <string name="close">Fermer</string>
     <string name="publish_memories">Ajouter un souvenir</string>
+    <string name="memories">Mon Souvenir</string>
+    <string name="publication">Publication</string>
 </resources>
