@@ -50,13 +50,13 @@ class HomeViewModel: ViewModel() {
 
                 _state.update {
                     it.copy(
-                        memories = memories,
+                        memories = memories.sortedByDescending { date -> date.creationDate },
                         isLoading = false
                     )
                 }
             }
             .addOnFailureListener { exception ->
-                emitEffect(HomeEffect.ShowError)
+                emitEffect(HomeEffect.ShowError(exception))
             }
     }
 }

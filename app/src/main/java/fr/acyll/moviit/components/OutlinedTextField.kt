@@ -82,7 +82,9 @@ fun OutlinedTextField(
                     .fillMaxWidth(),
                 enabled = enabled,
                 readOnly = readOnly,
-                textStyle = MaterialTheme.typography.bodyMedium,
+                textStyle = MaterialTheme.typography.bodyMedium.copy(
+                    color = MaterialTheme.colorScheme.onSecondaryContainer
+                ),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = keyboardType,
                     capitalization = capitalization,

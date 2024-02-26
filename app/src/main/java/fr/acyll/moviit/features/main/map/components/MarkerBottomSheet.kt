@@ -23,7 +23,7 @@ fun MarkerBottomSheet(
         title = shootingPlace.title,
         onDismiss = onDismiss,
         body = {
-               Text(text = "coucou")
+               Text(text = shootingPlace.director)
         },
         footer = {
             PrimaryButton(

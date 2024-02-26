@@ -7,5 +7,7 @@ sealed class Screen(val route: String) {
     data object Auth: Screen("auth_screen")
 
     data object Contribute: Screen("contribute_screen")
-    data object Publish: Screen("publish_screen")
+    data object Publish: Screen("publish_screen?id={id}") {
+        fun routeWithArguments(id: String) = "publish_screen?id=$id"
+    }
 }

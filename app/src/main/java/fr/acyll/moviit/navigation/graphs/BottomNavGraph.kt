@@ -3,8 +3,10 @@ package fr.acyll.moviit.navigation.graphs
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import fr.acyll.moviit.features.main.home.HomeScreen
 import fr.acyll.moviit.features.main.map.MapScreen
 import fr.acyll.moviit.features.main.account.AccountScreen
@@ -44,8 +46,8 @@ fun BottomNavGraph(
 
             MapScreen(
                 viewModel = mapViewModel,
-                navigateToScreen = {
-                    navController.navigate(it)
+                navigateToPublishScreen = {
+                    navController.navigate(Screen.Publish.routeWithArguments(it))
                 }
             )
         }
@@ -81,12 +83,17 @@ fun BottomNavGraph(
         }
 
         composable(
-            route = Screen.Publish.route
+            route = Screen.Publish.route,
+            arguments = listOf(
+                navArgument("id") { type = NavType.StringType }
+            )
         ) {
             val publishViewModel: PublishViewModel = koinViewModel()
+            val shootingPlaceId = it.arguments?.getString("id") ?: ""
 
             PublishScreen(
                 viewModel = publishViewModel,
+                shootingPlaceId = shootingPlaceId,
                 onNavigateBack = {
                     navController.popBackStack()
                 }

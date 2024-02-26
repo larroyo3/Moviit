@@ -12,5 +12,5 @@ sealed class AccountEvent {
 }
 
 sealed class AccountEffect {
-    data object ShowError: AccountEffect()
+    data class ShowError(val error: Exception): AccountEffect()
 }

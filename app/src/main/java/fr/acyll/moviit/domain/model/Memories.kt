@@ -1,6 +1,5 @@
 package fr.acyll.moviit.domain.model
 
-import com.google.firebase.firestore.DocumentReference
 import java.util.Date
 
 data class Memories(
@@ -12,5 +11,5 @@ data class Memories(
     val authorId: String = "",
     val authorProfilePictureUrl: String = "",
 
-    val shootingPlaceId: DocumentReference? = null
+    val shootingPlaceId: String = ""
 )

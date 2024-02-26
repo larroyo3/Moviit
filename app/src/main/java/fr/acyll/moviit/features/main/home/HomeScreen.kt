@@ -1,5 +1,6 @@
 package fr.acyll.moviit.features.main.home
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -11,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -20,6 +22,7 @@ import fr.acyll.moviit.components.NoActionBarScreenContainer
 import fr.acyll.moviit.features.contribute.ContributeEffect
 import fr.acyll.moviit.features.contribute.ContributeState
 import fr.acyll.moviit.ui.theme.MoviitTheme
+import fr.acyll.moviit.utils.ComposableDateUtils.getLabelFromDate
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
@@ -27,12 +30,13 @@ fun HomeScreen(
     viewModel: HomeViewModel
 ) {
     val state: HomeState by viewModel.state.collectAsStateWithLifecycle()
+    val context = LocalContext.current
 
     LaunchedEffect(key1 = Unit) {
         viewModel.effect.collectLatest { effect ->
             when (effect) {
                 is HomeEffect.ShowError -> {
-
+                    Toast.makeText(context, "Exception: ${effect.error}", Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -63,6 +67,7 @@ fun ScreenContent(
             items(state.memories) { publication ->
                 Text(text = publication.title)
                 Text(text = publication.description)
+                Text(text = getLabelFromDate(publication.creationDate))
             }
         }
     }

@@ -7,4 +7,6 @@ data class ShootingPlace(
     val synopsis: String = "",
     val latitude: String = "",
     val longitude: String = "",
+
+    val id: String = "",
 )

@@ -12,5 +12,5 @@ sealed class HomeEvent {
 }
 
 sealed class HomeEffect {
-    data object ShowError: HomeEffect()
+    data class ShowError(val error: Exception): HomeEffect()
 }

@@ -1,5 +1,6 @@
 package fr.acyll.moviit.features.main.map
 
+import com.google.firebase.firestore.DocumentReference
 import fr.acyll.moviit.domain.model.ShootingPlace
 
 data class MapState(
@@ -13,8 +14,10 @@ data class MapState(
 sealed class MapEvent {
     data class OnMarkerClick(val value: ShootingPlace): MapEvent()
     data object OnDismissMarkerBottomSheet: MapEvent()
+    data class OnPublishClick(val value: String): MapEvent()
 }
 
 sealed class MapEffect {
-    data object ShowError: MapEffect()
+    data class ShowError(val error: Exception): MapEffect()
+    data class GoToPublishPage(val value: String): MapEffect()
 }

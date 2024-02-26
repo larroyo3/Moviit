@@ -3,6 +3,7 @@ package fr.acyll.moviit.features.main.map
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.toObject
 import com.google.firebase.ktx.Firebase
 import fr.acyll.moviit.domain.model.ShootingPlace
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -22,7 +23,7 @@ class MapViewModel: ViewModel() {
 
     init {
         _state.update { it.copy(isLoading = true) }
-        getPublications()
+        getShootingPlaces()
     }
 
     fun onEvent(event: MapEvent) {
@@ -44,6 +45,10 @@ class MapViewModel: ViewModel() {
                     )
                 }
             }
+
+            is MapEvent.OnPublishClick -> {
+                emitEffect(MapEffect.GoToPublishPage(event.value))
+            }
         }
     }
 
@@ -53,24 +58,26 @@ class MapViewModel: ViewModel() {
         }
     }
 
-    private fun getPublications() {
-        val publicationCollection = Firebase.firestore.collection("shooting_place")
-        publicationCollection.get()
+    private fun getShootingPlaces() {
+        val shootingPlacesCollection = Firebase.firestore.collection("shooting_place")
+        shootingPlacesCollection.get()
             .addOnSuccessListener { result ->
-                val publications: MutableList<ShootingPlace> = mutableListOf()
+                val shootingPlaces: MutableList<ShootingPlace> = mutableListOf()
+
                 for (document in result) {
-                    publications.add(document.toObject(ShootingPlace::class.java))
+                    val shootingPlace = document.toObject<ShootingPlace>()
+                    shootingPlaces.add(shootingPlace.copy(id = document.id))
                 }
 
                 _state.update {
                     it.copy(
-                        shootingPlaces = publications,
+                        shootingPlaces = shootingPlaces,
                         isLoading = false
                     )
                 }
             }
             .addOnFailureListener { exception ->
-                emitEffect(MapEffect.ShowError)
+                emitEffect(MapEffect.ShowError(exception))
             }
     }
 }
