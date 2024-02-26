@@ -20,17 +20,17 @@ class HomeViewModel: ViewModel() {
     private val _effect = MutableSharedFlow<HomeEffect>()
     val effect = _effect.asSharedFlow()
 
-    init {
-        _state.update { it.copy(isLoading = true) }
-        getPublications()
-    }
-
     fun onEvent(event: HomeEvent) {
         when (event) {
             is HomeEvent.OnMovieTitleChange -> {
 
             }
         }
+    }
+
+    fun refreshData() {
+        _state.update { it.copy(isLoading = true) }
+        getPublications()
     }
 
     private fun emitEffect(effect: HomeEffect) {
