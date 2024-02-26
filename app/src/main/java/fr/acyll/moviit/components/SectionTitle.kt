@@ -13,9 +13,12 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun SectionTitle(
-    title: String
+    title: String,
+    modifier: Modifier = Modifier
 ) {
-    Column {
+    Column(
+        modifier = modifier
+    ) {
         Text(
             text = title,
             style = MaterialTheme.typography.titleLarge
