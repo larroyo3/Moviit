@@ -34,12 +34,15 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import fr.acyll.moviit.R
+import fr.acyll.moviit.components.MemoryPublication
 import fr.acyll.moviit.components.NoActionBarScreenContainer
+import fr.acyll.moviit.domain.model.Memories
 import fr.acyll.moviit.features.contribute.ContributeEffect
 import fr.acyll.moviit.features.contribute.ContributeState
 import fr.acyll.moviit.ui.theme.MoviitTheme
 import fr.acyll.moviit.utils.ComposableDateUtils.getLabelFromDate
 import kotlinx.coroutines.flow.collectLatest
+import java.util.Date
 
 @Composable
 fun HomeScreen(
@@ -78,53 +81,7 @@ fun ScreenContent(
     ) {
         LazyColumn {
             items(state.memories) { memory ->
-                Column(
-                    modifier = Modifier.padding(16.dp)
-                ) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        AsyncImage(
-                            model = ImageRequest
-                                .Builder(context)
-                                .data(memory.authorProfilePictureUrl)
-                                .crossfade(true)
-                                .placeholder(R.drawable.ic_account)
-                                .build(),
-                            contentDescription = "Profile picture",
-                            modifier = Modifier
-                                .size(36.dp)
-                                .clip(CircleShape),
-                            contentScale = ContentScale.Crop
-                        )
-                        Spacer(modifier = Modifier.width(12.dp))
-                        Column {
-                            Text(
-                                text = memory.author,
-                                style = MaterialTheme.typography.labelMedium
-                            )
-                            Text(
-                                text = getLabelFromDate(date = memory.creationDate),
-                                style = MaterialTheme.typography.bodySmall.copy(color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6F)),
-                            )
-                        }
-                    }
-                    
-                    Spacer(modifier = Modifier.height(12.dp))
-                    Text(
-                        text = memory.title,
-                        style = MaterialTheme.typography.labelLarge
-                    )
-                    Spacer(modifier = Modifier.height(4.dp))
-                    Text(
-                        text = memory.description,
-                        style = MaterialTheme.typography.bodySmall,
-                        maxLines = 3,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                }
+                MemoryPublication(memory = memory, context = context)
             }
         }
     }
@@ -134,7 +91,28 @@ fun ScreenContent(
 @Composable
 fun MainPreview() {
     ScreenContent(
-        state = HomeState(),
+        state = HomeState(
+            memories = listOf(
+                Memories(
+                    title = "Chateau",
+                    description = "très beau chateau",
+                    author = "Moviit team",
+                    creationDate = Date()
+                ),
+                Memories(
+                    title = "Chateau",
+                    description = "très beau chateau",
+                    author = "Moviit team",
+                    creationDate = Date()
+                ),
+                Memories(
+                    title = "Chateau",
+                    description = "très beau chateau",
+                    author = "Moviit team",
+                    creationDate = Date()
+                ),
+            )
+        ),
         context = LocalContext.current
     )
 }
