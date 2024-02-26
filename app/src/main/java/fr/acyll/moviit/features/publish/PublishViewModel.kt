@@ -12,6 +12,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.toObject
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.ktx.storage
 import fr.acyll.moviit.domain.model.Memories
 import fr.acyll.moviit.domain.model.ShootingPlace
 import fr.acyll.moviit.features.onboarding.auth.GoogleAuthUiClient
@@ -81,7 +83,16 @@ class PublishViewModel(
                     )
                 }
 
-                publishMemory()
+                uploadImage()
+                //publishMemory()
+            }
+
+            is PublishEvent.OnAddImage -> {
+                _state.update {
+                    it.copy(
+                        imageUri = event.value
+                    )
+                }
             }
         }
     }
@@ -123,6 +134,20 @@ class PublishViewModel(
             }.addOnFailureListener { e ->
                 emitEffect(PublishEffect.ShowError(e))
             }
+    }
+
+    private fun uploadImage() {
+        val storageRef = FirebaseStorage.getInstance().reference
+        val imageRef = storageRef.child("images/${state.value.imageUri?.encodedPath}")
+        val uploadTask = imageRef.putFile(state.value.imageUri!!)
+
+        uploadTask.addOnSuccessListener { result ->
+            // Image upload successful
+            Log.d("tag", "YESSSSSSSS")
+        }.addOnFailureListener { e ->
+            // Image upload failed
+            Log.d("tag", "NOOOOOOOOOOO")
+        }
     }
 
     private fun emitEffect(effect: PublishEffect) {

@@ -103,7 +103,7 @@ fun ScreenContent(
                     style = MaterialTheme.typography.titleLarge
                 )
                 Text(
-                    text = "${state.memories.size} souvenir(s)",
+                    text = "${state.memories.size} souvenirs",
                     style = MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6F)),
                 )
             }
