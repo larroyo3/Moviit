@@ -1,20 +1,16 @@
 package fr.acyll.moviit.features.publish
 
 import android.content.Context
+import android.net.Uri
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.auth.api.identity.Identity
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.toObject
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.ktx.storage
-import fr.acyll.moviit.domain.model.Memories
+import com.google.firebase.storage.StorageReference
 import fr.acyll.moviit.domain.model.ShootingPlace
 import fr.acyll.moviit.features.onboarding.auth.GoogleAuthUiClient
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -23,7 +19,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.lang.Exception
+
 
 class PublishViewModel(
     context: Context
@@ -84,7 +80,6 @@ class PublishViewModel(
                 }
 
                 uploadImage()
-                //publishMemory()
             }
 
             is PublishEvent.OnAddImage -> {
@@ -141,12 +136,28 @@ class PublishViewModel(
         val imageRef = storageRef.child("images/${state.value.imageUri?.encodedPath}")
         val uploadTask = imageRef.putFile(state.value.imageUri!!)
 
-        uploadTask.addOnSuccessListener { result ->
-            // Image upload successful
-            Log.d("tag", "YESSSSSSSS")
+        uploadTask.addOnSuccessListener { _ ->
+            getUrlFromUploadImage(imageRef)
         }.addOnFailureListener { e ->
-            // Image upload failed
-            Log.d("tag", "NOOOOOOOOOOO")
+            emitEffect(PublishEffect.ShowError(e))
+        }
+    }
+
+    private fun getUrlFromUploadImage(imageRef: StorageReference) {
+        imageRef.downloadUrl.addOnSuccessListener { uri ->
+            val imageUrl = uri.toString()
+
+            _state.update {
+                it.copy(
+                    memories = it.memories.copy(
+                        imageURL = imageUrl
+                    )
+                )
+            }
+
+            publishMemory()
+        }.addOnFailureListener { error ->
+            emitEffect(PublishEffect.ShowError(error))
         }
     }
 
