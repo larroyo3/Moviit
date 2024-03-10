@@ -9,6 +9,7 @@ data class PublishState(
     val isLoading: Boolean = false,
     val memories: Memories = Memories(),
     val shootingPlace: ShootingPlace? = null,
+    val shootingPlaceId: String = "",
     val userData: UserData? = null,
     val imageUri: Uri? = null,
 )

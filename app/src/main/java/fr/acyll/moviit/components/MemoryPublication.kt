@@ -31,54 +31,77 @@ import java.util.Date
 @Composable
 fun MemoryPublication(
     memory: Memories,
-    context: Context
+    context: Context,
+    profileSection: Boolean = true
 ) {
     Column(
-        modifier = Modifier.padding(16.dp)
+        modifier = Modifier
+            .padding(vertical = 8.dp),
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            AsyncImage(
-                model = ImageRequest
-                    .Builder(context)
-                    .data(memory.authorProfilePictureUrl)
-                    .crossfade(true)
-                    .placeholder(R.drawable.ic_account)
-                    .build(),
-                contentDescription = "Profile picture",
+        if (profileSection) {
+            Row(
                 modifier = Modifier
-                    .size(36.dp)
-                    .clip(CircleShape),
-                contentScale = ContentScale.Crop
-            )
-            Spacer(modifier = Modifier.width(12.dp))
-            Column {
-                Text(
-                    text = memory.author,
-                    style = MaterialTheme.typography.labelMedium
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                AsyncImage(
+                    model = ImageRequest
+                        .Builder(context)
+                        .data(memory.authorProfilePictureUrl)
+                        .crossfade(true)
+                        .placeholder(R.drawable.ic_account)
+                        .build(),
+                    contentDescription = "Profile picture",
+                    modifier = Modifier
+                        .size(36.dp)
+                        .clip(CircleShape),
+                    contentScale = ContentScale.Crop
                 )
-                Text(
-                    text = ComposableDateUtils.getLabelFromDate(date = memory.creationDate),
-                    style = MaterialTheme.typography.bodySmall.copy(color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6F)),
-                )
+                Spacer(modifier = Modifier.width(12.dp))
+                Column {
+                    Text(
+                        text = memory.author,
+                        style = MaterialTheme.typography.labelMedium
+                    )
+                    Text(
+                        text = ComposableDateUtils.getLabelFromDate(date = memory.creationDate),
+                        style = MaterialTheme.typography.bodySmall.copy(
+                            color = MaterialTheme.colorScheme.onBackground.copy(
+                                alpha = 0.6F
+                            )
+                        ),
+                    )
+                }
             }
         }
 
         Spacer(modifier = Modifier.height(12.dp))
-        Text(
-            text = memory.title,
-            style = MaterialTheme.typography.labelLarge
+        AsyncImage(
+            model = ImageRequest
+                .Builder(context)
+                .data(memory.imageURL)
+                .crossfade(true)
+                .build(),
+            contentDescription = null,
         )
-        Spacer(modifier = Modifier.height(4.dp))
-        Text(
-            text = memory.description,
-            style = MaterialTheme.typography.bodySmall,
-            maxLines = 3,
-            overflow = TextOverflow.Ellipsis
-        )
+
+        Column(
+            modifier = Modifier.padding(horizontal = 16.dp)
+        ) {
+            Spacer(modifier = Modifier.height(12.dp))
+            Text(
+                text = memory.title,
+                style = MaterialTheme.typography.labelLarge
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = memory.description,
+                style = MaterialTheme.typography.bodySmall,
+                maxLines = 3,
+                overflow = TextOverflow.Ellipsis
+            )
+        }
     }
 }
 

@@ -7,6 +7,8 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import fr.acyll.moviit.features.contribute.ContributeScreen
+import fr.acyll.moviit.features.contribute.ContributeViewModel
 import fr.acyll.moviit.features.main.home.HomeScreen
 import fr.acyll.moviit.features.main.map.MapScreen
 import fr.acyll.moviit.features.main.account.AccountScreen
@@ -77,7 +79,7 @@ fun BottomNavGraph(
                     }
                 },
                 navigateToScreen = {
-                    //navController.navigate(it)
+                    navController.navigate(it)
                 }
             )
         }
@@ -100,7 +102,6 @@ fun BottomNavGraph(
             )
         }
 
-        /*
         composable(
             route = Screen.Contribute.route
         ) {
@@ -113,7 +114,5 @@ fun BottomNavGraph(
                 }
             )
         }
-
-         */
     }
 }

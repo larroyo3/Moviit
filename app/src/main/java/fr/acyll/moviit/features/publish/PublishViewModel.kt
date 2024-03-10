@@ -74,7 +74,7 @@ class PublishViewModel(
                             author = it.userData?.username ?: "",
                             authorId = it.userData?.userId ?: "",
                             authorProfilePictureUrl = it.userData?.profilePictureUrl ?: "",
-                            shootingPlaceId = it.shootingPlace?.id ?: ""
+                            shootingPlaceId = it.shootingPlaceId
                         )
                     )
                 }
@@ -107,7 +107,7 @@ class PublishViewModel(
 
                     _state.update {
                         it.copy(
-                            shootingPlace = it.shootingPlace?.copy(id = document.id)
+                            shootingPlaceId = document.id
                         )
                     }
                     Log.d("tag", _state.value.shootingPlace.toString())

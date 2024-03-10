@@ -116,7 +116,7 @@ fun ScreenContent(
 
         LazyColumn {
             items(state.memories) { memory ->
-                MemoryPublication(memory = memory, context = context)
+                MemoryPublication(memory = memory, context = context, profileSection = false)
             }
         }
     }

@@ -1,5 +1,6 @@
 package fr.acyll.moviit.di
 
+import fr.acyll.moviit.features.contribute.ContributeViewModel
 import fr.acyll.moviit.features.main.account.AccountViewModel
 import fr.acyll.moviit.features.main.home.HomeViewModel
 import fr.acyll.moviit.features.main.map.MapViewModel
@@ -20,7 +21,7 @@ val appModule = module {
     viewModel { MapViewModel() }
 
     // Feature Contribute
-    //viewModel { ContributeViewModel() }
+    viewModel { ContributeViewModel() }
 
     // Feature Publish
     viewModel { PublishViewModel(context = androidContext()) }
