@@ -83,7 +83,9 @@ fun MemoryPublication(
                 .data(memory.imageURL)
                 .crossfade(true)
                 .build(),
+            modifier = Modifier.fillMaxWidth(),
             contentDescription = null,
+            contentScale = ContentScale.Crop
         )
 
         Column(
