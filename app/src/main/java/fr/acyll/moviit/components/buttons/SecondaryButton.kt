@@ -1,5 +1,6 @@
-package fr.acyll.moviit.components
+package fr.acyll.moviit.components.buttons
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Button
@@ -16,7 +17,7 @@ import fr.acyll.moviit.R
 import fr.acyll.moviit.ui.theme.MoviitTheme
 
 @Composable
-fun PrimaryButton(
+fun SecondaryButton(
     label: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
@@ -25,29 +26,29 @@ fun PrimaryButton(
         onClick = onClick,
         shape = MaterialTheme.shapes.small,
         colors = ButtonDefaults.buttonColors(
-            containerColor = MaterialTheme.colorScheme.primary,
+            containerColor = MaterialTheme.colorScheme.secondaryContainer,
             disabledContainerColor = Color.LightGray,
-            contentColor = MaterialTheme.colorScheme.onPrimary,
+            contentColor = MaterialTheme.colorScheme.onSecondary,
             disabledContentColor = Color.Black
         ),
         modifier = modifier
             .fillMaxWidth()
+            .border(1.dp, color = MaterialTheme.colorScheme.secondary, MaterialTheme.shapes.small)
             .height(45.dp)
     ) {
         Text(
             text = label,
-            style = MaterialTheme.typography.labelLarge
+            style = MaterialTheme.typography.labelLarge,
+            color = MaterialTheme.colorScheme.onSecondaryContainer
         )
     }
 }
 
 @Preview
 @Composable
-fun PrimaryButtonDP() {
-    MoviitTheme {
-        PrimaryButton(
-            label = stringResource(R.string.continuer),
-            onClick = {}
-        )
-    }
+fun SecondaryButtonDP() {
+    SecondaryButton(
+        label = stringResource(R.string.continuer),
+        onClick = {}
+    )
 }
