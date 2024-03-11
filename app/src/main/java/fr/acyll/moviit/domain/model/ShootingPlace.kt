@@ -9,5 +9,5 @@ data class ShootingPlace(
     val longitude: String = "",
 
     val moviePosterUrl: String? = null,
-    val contributorId: String = "",
+    val id: String = "",
 )
