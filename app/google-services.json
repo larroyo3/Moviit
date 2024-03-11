@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1002693502918",
+    "project_id": "moviit",
+    "storage_bucket": "moviit.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1002693502918:android:4670a4ff6fac6f2d5f34c7",
+        "android_client_info": {
+          "package_name": "fr.acyll.moviit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1002693502918-7nvils8i72m007i754lkbj0ctm886ot1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "fr.acyll.moviit",
+            "certificate_hash": "6527ef1ad7a0465c3ff300306d9e5fb55b0aef39"
+          }
+        },
+        {
+          "client_id": "1002693502918-feph49j3jhchb919kldqdor3pg7phe5s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAnv0Yu1l4gYxc4CKKLCtEoiTFUSYnGy0o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1002693502918-feph49j3jhchb919kldqdor3pg7phe5s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
