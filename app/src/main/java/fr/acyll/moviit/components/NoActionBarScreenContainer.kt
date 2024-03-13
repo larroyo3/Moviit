@@ -10,15 +10,25 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
 fun NoActionBarScreenContainer(
     isLoading: Boolean = false,
+    isMaps: Boolean = false,
     content: @Composable (PaddingValues) -> Unit
 ) {
+    val systemUiController = rememberSystemUiController()
+    val statusBarColor = MaterialTheme.colorScheme.background
+    SideEffect {
+        systemUiController.setSystemBarsColor(statusBarColor)
+    }
+
     Scaffold { paddingValues ->
         Surface(
             modifier = Modifier
@@ -47,7 +57,9 @@ fun NoActionBarScreenContainer(
 @Preview(showSystemUi = true)
 @Composable
 fun NoActionBarScreenContainerPreview() {
-    NoActionBarScreenContainer {
+    NoActionBarScreenContainer(
+
+    ) {
 
     }
 }

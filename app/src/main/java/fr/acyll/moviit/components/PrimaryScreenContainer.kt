@@ -19,9 +19,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
 fun PrimaryScreenContainer(
@@ -31,6 +33,12 @@ fun PrimaryScreenContainer(
     onPrimaryButtonClick: (() -> Unit)? = null,
     content: @Composable (PaddingValues) -> Unit
 ) {
+    val systemUiController = rememberSystemUiController()
+    val statusBarColor = MaterialTheme.colorScheme.primaryContainer
+    SideEffect {
+        systemUiController.setSystemBarsColor(statusBarColor)
+    }
+
     Scaffold(
         topBar = {
             AppTopBar(
