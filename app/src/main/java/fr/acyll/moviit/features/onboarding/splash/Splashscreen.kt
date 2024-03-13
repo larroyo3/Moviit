@@ -69,11 +69,12 @@ fun ScreenContent(
             .fillMaxHeight()
     ) {
         Image(
-            painter = painterResource(id = R.drawable.logo_app),
+            painter = painterResource(id = R.drawable.moviit_logo),
             contentDescription = "",
-            alignment = Alignment.Center, modifier = Modifier
+            alignment = Alignment.Center,
+            modifier = Modifier
                 .fillMaxSize()
-                .padding(40.dp)
+                .padding(20.dp)
                 .scale(scale.value)
         )
 
