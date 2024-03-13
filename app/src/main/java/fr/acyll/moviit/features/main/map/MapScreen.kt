@@ -51,7 +51,9 @@ fun MapScreen(
         }
     }
 
-    NoActionBarScreenContainer {
+    NoActionBarScreenContainer(
+        isMaps = true
+    ) {
         ScreenContent(
             state = state,
             onEvent = {
