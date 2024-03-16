@@ -16,6 +16,10 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRow
+import androidx.compose.material3.TabRowDefaults
+import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -32,11 +36,13 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import fr.acyll.moviit.R
+import fr.acyll.moviit.components.ContributionComponent
 import fr.acyll.moviit.components.MemoryPublication
 import fr.acyll.moviit.components.NoActionBarScreenContainer
 import fr.acyll.moviit.components.SectionTitle
 import fr.acyll.moviit.domain.model.onboarding.UserData
 import fr.acyll.moviit.features.main.home.HomeEffect
+import fr.acyll.moviit.features.main.settings.SettingsEvent
 import fr.acyll.moviit.features.onboarding.auth.AuthState
 import fr.acyll.moviit.utils.ComposableDateUtils
 import kotlinx.coroutines.flow.collectLatest
@@ -62,7 +68,10 @@ fun AccountScreen(
     NoActionBarScreenContainer {
         ScreenContent(
             state = state,
-            context = context
+            context = context,
+            onEvent = {
+                viewModel.onEvent(it)
+            }
         )
     }
 }
@@ -70,8 +79,14 @@ fun AccountScreen(
 @Composable
 fun ScreenContent(
     state: AccountState,
-    context: Context
+    context: Context,
+    onEvent: (AccountEvent) -> Unit
 ) {
+    val tabItems = listOf(
+        stringResource(id = R.string.memories),
+        stringResource(id = R.string.contribution)
+    )
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -106,17 +121,58 @@ fun ScreenContent(
                     text = "${state.memories.size} souvenirs",
                     style = MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6F)),
                 )
+                Text(
+                    text = "${state.shootingPlace.size} contributions",
+                    style = MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6F)),
+                )
             }
         }
 
-        SectionTitle(
-            title = stringResource(R.string.memories),
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp)
-        )
+        TabRow(
+            selectedTabIndex = state.selectedIndex,
+            indicator = { tabPositions ->
+                TabRowDefaults.Indicator(
+                    modifier = Modifier.tabIndicatorOffset(tabPositions[state.selectedIndex]),
+                    color = MaterialTheme.colorScheme.primary,
+                    height = 3.dp
+                )
+            },
+            divider = {}
+        ) {
+            tabItems.forEachIndexed { index, item ->
+                Tab(
+                    selected = (index == state.selectedIndex),
+                    onClick = { onEvent(AccountEvent.OnChangeTabs(index))},
+                    text = {
+                        Text(
+                            modifier = Modifier.padding(vertical = 8.dp),
+                            text = item,
+                            color = if (index == state.selectedIndex) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onBackground,
+                            style = if (index == state.selectedIndex) MaterialTheme.typography.titleMedium else MaterialTheme.typography.bodyMedium
+                        )
+                    }
+                )
+            }
+        }
 
-        LazyColumn {
-            items(state.memories) { memory ->
-                MemoryPublication(memory = memory, context = context, profileSection = false)
+        when (state.selectedIndex) {
+            AccountTabsIndex.MEMORIES.index -> {
+                LazyColumn {
+                    items(state.memories) { memory ->
+                        MemoryPublication(memory = memory, context = context, profileSection = false)
+                    }
+                }
+            }
+            AccountTabsIndex.CONTRIBUTION.index -> {
+                LazyColumn {
+                    items(state.shootingPlace) { shootingPlace ->
+                        ContributionComponent(shootingPlace = shootingPlace, context = context)
+
+                        if (state.shootingPlace.indexOf(shootingPlace) < state.shootingPlace.size - 1) {
+                            HorizontalDivider()
+                        }
+                    }
+                }
             }
         }
     }
@@ -133,6 +189,7 @@ fun MainPreview() {
                 username = "Lucas Arroyo",
                 profilePictureUrl = null
             )
-        )
+        ),
+        onEvent = {}
     )
 }

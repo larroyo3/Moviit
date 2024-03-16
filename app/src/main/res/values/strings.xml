@@ -27,7 +27,7 @@
     <string name="close">Fermer</string>
     <string name="publish_memories">Ajouter un souvenir</string>
     <string name="memory">Mon Souvenir</string>
-    <string name="memories">Mes souvenirs</string>
+    <string name="memories">Souvenirs</string>
     <string name="publication">Publication</string>
     <string name="just_now">A l\'instant</string>
     <string name="add_image">Ajouter une photo</string>
@@ -35,4 +35,5 @@
     <string name="place">Lieu</string>
     <string name="place_informations">Lieu de tournage</string>
     <string name="name">Nom</string>
+    <string name="contribution">Contributions</string>
 </resources>
