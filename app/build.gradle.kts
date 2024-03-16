@@ -25,7 +25,6 @@ android {
             useSupportLibrary = true
         }
 
-        //load the values from .properties file
         val keystoreFile = project.rootProject.file(".properties")
         val properties = Properties()
         properties.load(keystoreFile.inputStream())
@@ -33,6 +32,14 @@ android {
         //return empty key in case something goes wrong
         val apiKey = properties.getProperty("GOOGLE_MAPS_API_KEY") ?: ""
         manifestPlaceholders["GOOGLE_MAPS_KEY"] = apiKey
+
+        // tmdb api
+        val tmdbApiKey = properties.getProperty("TMBD_API_KEY") ?: ""
+        buildConfigField(
+            type = "String",
+            name = "TMBD_API_KEY",
+            value = tmdbApiKey
+        )
     }
 
     buildTypes {
@@ -53,6 +60,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
@@ -79,6 +87,7 @@ dependencies {
     implementation("com.google.firebase:firebase-auth:22.3.1")
     implementation("com.google.android.gms:play-services-auth:21.0.0")
     implementation("com.google.firebase:firebase-storage:20.3.0")
+    implementation("com.google.android.engage:engage-core:1.4.0")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
@@ -117,4 +126,9 @@ dependencies {
     // maps
     implementation ("com.google.maps.android:maps-compose:2.14.0")
     implementation ("com.google.android.gms:play-services-maps:18.2.0")
+
+    // retrofit
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.9.1")
 }

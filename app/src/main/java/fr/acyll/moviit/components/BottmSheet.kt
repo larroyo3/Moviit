@@ -38,7 +38,7 @@ fun BottomSheet(
         ) {
             Text(
                 text = title,
-                style = MaterialTheme.typography.titleLarge,
+                style = MaterialTheme.typography.headlineLarge,
             )
             Spacer(modifier = Modifier.height(16.dp))
             body()

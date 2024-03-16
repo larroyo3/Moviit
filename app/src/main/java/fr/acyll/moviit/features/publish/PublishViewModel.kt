@@ -47,16 +47,6 @@ class PublishViewModel(
 
     fun onEvent(event: PublishEvent) {
         when (event) {
-            is PublishEvent.OnTitleChange -> {
-                _state.update {
-                    it.copy(
-                        memories = it.memories.copy(
-                            title = event.value
-                        )
-                    )
-                }
-            }
-
             is PublishEvent.OnDescriptionChange -> {
                 _state.update {
                     it.copy(
@@ -74,7 +64,8 @@ class PublishViewModel(
                             author = it.userData?.username ?: "",
                             authorId = it.userData?.userId ?: "",
                             authorProfilePictureUrl = it.userData?.profilePictureUrl ?: "",
-                            shootingPlaceId = it.shootingPlaceId
+                            shootingPlaceId = it.shootingPlaceId,
+                            title = it.shootingPlace?.place ?: ""
                         )
                     )
                 }

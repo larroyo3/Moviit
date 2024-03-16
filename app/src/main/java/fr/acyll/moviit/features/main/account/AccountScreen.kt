@@ -167,6 +167,10 @@ fun ScreenContent(
                 LazyColumn {
                     items(state.shootingPlace) { shootingPlace ->
                         ContributionComponent(shootingPlace = shootingPlace, context = context)
+
+                        if (state.shootingPlace.indexOf(shootingPlace) < state.shootingPlace.size - 1) {
+                            HorizontalDivider()
+                        }
                     }
                 }
             }

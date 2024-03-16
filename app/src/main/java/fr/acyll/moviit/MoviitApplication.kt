@@ -3,6 +3,9 @@ package fr.acyll.moviit
 import android.app.Application
 import com.google.firebase.FirebaseApp
 import fr.acyll.moviit.di.appModule
+import fr.acyll.moviit.di.coreModule
+import fr.acyll.moviit.di.logicModule
+import fr.acyll.moviit.di.repositoryModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
@@ -14,7 +17,7 @@ class App: Application() {
 
         startKoin {
             androidContext(this@App)
-            modules(appModule)
+            modules(coreModule, logicModule, repositoryModule, appModule)
         }
     }
 }
