@@ -13,7 +13,7 @@
     <string name="contribute">Contribuer</string>
     <string name="add_shooting_location">Ajouter un lieu de tournage</string>
     <string name="add">Ajouter</string>
-    <string name="movie_information">Information sur le film</string>
+    <string name="movie_information">Informations du film</string>
     <string name="confirm">Confirmer</string>
     <string name="title">Titre</string>
     <string name="director">Réalisateur</string>
@@ -31,4 +31,8 @@
     <string name="publication">Publication</string>
     <string name="just_now">A l\'instant</string>
     <string name="add_image">Ajouter une photo</string>
+    <string name="select_movie">Sélectionnez un film</string>
+    <string name="place">Lieu</string>
+    <string name="place_informations">Lieu de tournage</string>
+    <string name="name">Nom</string>
 </resources>

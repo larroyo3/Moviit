@@ -156,12 +156,6 @@ fun ScreenContent(
 
         Spacer(modifier = Modifier.height(10.dp))
         OutlinedTextField(
-            value = state.memories.title,
-            onValueChange = { onEvent(PublishEvent.OnTitleChange(it)) },
-            label = stringResource(id = R.string.title),
-        )
-        Spacer(modifier = Modifier.height(10.dp))
-        OutlinedTextField(
             value = state.memories.description,
             onValueChange = { onEvent(PublishEvent.OnDescriptionChange(it)) },
             label = stringResource(R.string.description),
