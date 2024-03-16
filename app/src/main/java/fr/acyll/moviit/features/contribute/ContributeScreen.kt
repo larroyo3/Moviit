@@ -3,14 +3,13 @@ package fr.acyll.moviit.features.contribute
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.PickVisualMediaRequest
-import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -20,6 +19,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -32,15 +32,19 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import fr.acyll.moviit.R
+import fr.acyll.moviit.components.MovieResultsAutoComplete
 import fr.acyll.moviit.components.OutlinedTextField
 import fr.acyll.moviit.components.PrimaryButton
 import fr.acyll.moviit.components.PrimaryScreenContainer
@@ -95,114 +99,120 @@ fun ScreenContent(
     context: Context,
     onEvent: (ContributeEvent) -> Unit
 ) {
-    val scrollState = rememberScrollState()
-    val pickMedia = rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
-        if (uri != null) {
-            onEvent(ContributeEvent.OnAddImage(uri))
-        } else {
-            Log.d("PhotoPicker", "No media selected")
-        }
-    }
-
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
-            .verticalScroll(scrollState),
-        verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        SectionTitle(title = stringResource(R.string.movie_information))
+        if (state.selectedMovie == null) {
+            SectionTitle(title = stringResource(R.string.select_movie))
 
-        if (state.imageUri != null) {
-            AsyncImage(
-                modifier = Modifier.align(Alignment.CenterHorizontally),
-                model = ImageRequest
-                    .Builder(context)
-                    .data(state.imageUri)
-                    .crossfade(true)
-                    .build(),
-                contentDescription = null,
+            Spacer(modifier = Modifier.height(10.dp))
+            OutlinedTextField(
+                value = state.shootingPlace.title,
+                onValueChange = { onEvent(ContributeEvent.OnSearchQueryChange(it)) },
+                label = stringResource(R.string.title),
             )
-        } else {
-            Column(
+            Box(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(ComposableUtils.ScreenWidth() * 0.8f)
-                    .clickable {
-                        pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
-                    }
-                    .background(
-                        color = MaterialTheme.colorScheme.tertiaryContainer,
-                        shape = MaterialTheme.shapes.small
-                    )
-                    .border(
-                        width = 2.dp,
-                        color = MaterialTheme.colorScheme.tertiary,
-                        shape = MaterialTheme.shapes.small
-                    ),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
+                    .fillMaxSize(),
+                contentAlignment = Alignment.TopCenter
             ) {
-                Icon(
-                    imageVector = Icons.Default.AddAPhoto,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onTertiaryContainer,
-                    modifier = Modifier.size(45.dp)
-                )
-                Spacer(modifier = Modifier.height(4.dp))
+                Column(
+                    modifier = Modifier.zIndex(1f)
+                ) {
+                    AnimatedVisibility(
+                        visible = state.searchResult.isNotEmpty()
+                    ) {
+                        MovieResultsAutoComplete(
+                            items = state.searchResult,
+                            onItemClick = { onEvent(ContributeEvent.OnSelectMovie(it)) }
+                        )
+                    }
+                }
+            }
+        } else {
+            Column {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
+                    AsyncImage(
+                        model = ImageRequest
+                            .Builder(context)
+                            .data(state.selectedMovie.poster)
+                            .crossfade(true)
+                            .build(),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .widthIn(max = ComposableUtils.ScreenWidth() * 0.33f),
+                        contentScale = ContentScale.FillWidth
+                    )
+
+                    Spacer(modifier = Modifier.width(12.dp))
+                    Column {
+                        Text(
+                            text = state.selectedMovie.title,
+                            style = MaterialTheme.typography.headlineSmall
+                        )
+                        Text(
+                            text = state.selectedMovie.credits?.crew?.find { it.job == "Director" }?.name ?: "",
+                            style = MaterialTheme.typography.labelMedium
+                        )
+                        Text(
+                            text = state.selectedMovie.releaseDate ?: "",
+                            style = MaterialTheme.typography.bodySmall.copy(
+                                color = MaterialTheme.colorScheme.onBackground.copy(
+                                    alpha = 0.6F
+                                )
+                            ),
+                        )
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(16.dp))
                 Text(
-                    text = stringResource(id = R.string.add_image),
-                    style = MaterialTheme.typography.headlineMedium
+                    text = state.selectedMovie.overview ?: "",
+                    style = MaterialTheme.typography.bodyMedium,
+                    maxLines = 3,
+                    overflow = TextOverflow.Ellipsis
                 )
+
+                Spacer(modifier = Modifier.height(24.dp))
+                SectionTitle(title = stringResource(R.string.place_informations))
+
+                Spacer(modifier = Modifier.height(10.dp))
+                OutlinedTextField(
+                    value = state.shootingPlace.place,
+                    onValueChange = { onEvent(ContributeEvent.OnPlaceChange(it)) },
+                    label = stringResource(R.string.name),
+                )
+                Spacer(modifier = Modifier.height(10.dp))
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    OutlinedTextField(
+                        modifier = Modifier.width((ComposableUtils.ScreenWidth() - 40.dp) * 0.5F),
+                        value = state.shootingPlace.latitude,
+                        onValueChange = { onEvent(ContributeEvent.OnLatitudeChange(it)) },
+                        label = stringResource(R.string.latitude),
+                    )
+
+                    OutlinedTextField(
+                        modifier = Modifier.width((ComposableUtils.ScreenWidth() - 32.dp) * 0.5F),
+                        value = state.shootingPlace.longitude,
+                        onValueChange = { onEvent(ContributeEvent.OnLongitudesChange(it)) },
+                        label = stringResource(R.string.longitude),
+                    )
+                }
             }
         }
 
-        OutlinedTextField(
-            value = state.shootingPlace.title,
-            onValueChange = { onEvent(ContributeEvent.OnTitleChange(it)) },
-            label = stringResource(R.string.title),
-        )
 
-        OutlinedTextField(
-            value = state.shootingPlace.director,
-            onValueChange = { onEvent(ContributeEvent.OnDirectorChange(it)) },
-            label = stringResource(R.string.director),
-        )
 
-        OutlinedTextField(
-            value = state.shootingPlace.releaseDate,
-            onValueChange = { onEvent(ContributeEvent.OnReleaseDateChange(it)) },
-            label = stringResource(R.string.release_date),
-        )
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            OutlinedTextField(
-                modifier = Modifier.width((ComposableUtils.ScreenWidth() - 40.dp) * 0.5F),
-                value = state.shootingPlace.latitude,
-                onValueChange = { onEvent(ContributeEvent.OnLatitudeChange(it)) },
-                label = stringResource(R.string.latitude),
-            )
-
-            OutlinedTextField(
-                modifier = Modifier.width((ComposableUtils.ScreenWidth() - 32.dp) * 0.5F),
-                value = state.shootingPlace.longitude,
-                onValueChange = { onEvent(ContributeEvent.OnLongitudesChange(it)) },
-                label = stringResource(R.string.longitude),
-            )
-        }
-
-        OutlinedTextField(
-            value = state.shootingPlace.synopsis,
-            onValueChange = { onEvent(ContributeEvent.OnSynopsisChange(it)) },
-            label = stringResource(R.string.synopsis),
-            singleLine = false
-        )
-
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.weight(1f))
         PrimaryButton(
             label = stringResource(id = R.string.confirm),
             onClick = { onEvent(ContributeEvent.OnAddClick) }

@@ -15,7 +15,6 @@ data class PublishState(
 )
 
 sealed class PublishEvent {
-    data class OnTitleChange(val value: String): PublishEvent()
     data class OnDescriptionChange(val value: String): PublishEvent()
     data object OnPublishClick: PublishEvent()
     data class OnAddImage(val value: Uri): PublishEvent()

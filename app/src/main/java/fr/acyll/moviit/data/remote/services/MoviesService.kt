@@ -13,6 +13,7 @@ interface MoviesApiService {
     @GET("movie/{id}")
     suspend fun getMovieById(
         @Path("id") id: Int,
+        @Query("append_to_response") credit: String = "credits",
         @Query("language") language: String = "fr-FR"
     ): MovieDTO
 

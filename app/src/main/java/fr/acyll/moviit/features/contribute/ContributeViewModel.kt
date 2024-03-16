@@ -1,22 +1,27 @@
 package fr.acyll.moviit.features.contribute
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.android.gms.auth.api.identity.Identity
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import fr.acyll.moviit.domain.repository.MovieRepository
+import fr.acyll.moviit.features.onboarding.auth.GoogleAuthUiClient
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import okhttp3.internal.userAgent
 
 class ContributeViewModel(
-    private val movieRepository: MovieRepository
+    private val movieRepository: MovieRepository,
+    context: Context
 ): ViewModel() {
 
     private val _state = MutableStateFlow(ContributeState())
@@ -25,9 +30,24 @@ class ContributeViewModel(
     private val _effect = MutableSharedFlow<ContributeEffect>()
     val effect = _effect.asSharedFlow()
 
+    private val googleAuthUiClient by lazy {
+        GoogleAuthUiClient(
+            context = context,
+            oneTapClient = Identity.getSignInClient(context)
+        )
+    }
+
+    init {
+        _state.update {
+            it.copy(
+                userData = googleAuthUiClient.getSignedInUser()
+            )
+        }
+    }
+
     fun onEvent(event: ContributeEvent) {
         when (event) {
-            is ContributeEvent.OnTitleChange -> {
+            is ContributeEvent.OnSearchQueryChange -> {
                 _state.update {
                     it.copy(
                         shootingPlace = it.shootingPlace.copy(
@@ -39,34 +59,8 @@ class ContributeViewModel(
                 searchMoviesByTitle(event.value)
             }
 
-            is ContributeEvent.OnDirectorChange -> {
-                _state.update {
-                    it.copy(
-                        shootingPlace = it.shootingPlace.copy(
-                            director = event.value
-                        )
-                    )
-                }
-            }
-
-            is ContributeEvent.OnReleaseDateChange -> {
-                _state.update {
-                    it.copy(
-                        shootingPlace = it.shootingPlace.copy(
-                            releaseDate = event.value
-                        )
-                    )
-                }
-            }
-
-            is ContributeEvent.OnSynopsisChange -> {
-                _state.update {
-                    it.copy(
-                        shootingPlace = it.shootingPlace.copy(
-                            synopsis = event.value
-                        )
-                    )
-                }
+            is ContributeEvent.OnSelectMovie -> {
+                getMoviesById(event.value.id)
             }
 
             is ContributeEvent.OnLatitudeChange -> {
@@ -74,6 +68,16 @@ class ContributeViewModel(
                     it.copy(
                         shootingPlace = it.shootingPlace.copy(
                             latitude = event.value
+                        )
+                    )
+                }
+            }
+
+            is ContributeEvent.OnPlaceChange -> {
+                _state.update {
+                    it.copy(
+                        shootingPlace = it.shootingPlace.copy(
+                            place = event.value
                         )
                     )
                 }
@@ -89,50 +93,9 @@ class ContributeViewModel(
                 }
             }
 
-            is ContributeEvent.OnAddImage -> {
-                _state.update {
-                    it.copy(
-                        imageUri = event.value
-                    )
-                }
-            }
-
             is ContributeEvent.OnAddClick -> {
-                uploadImage()
+                publishMemory()
             }
-        }
-    }
-
-    private fun uploadImage() {
-        _state.update { it.copy(isLoading = true) }
-        val storageRef = FirebaseStorage.getInstance().reference
-        val imageRef = storageRef.child("images/${state.value.imageUri?.encodedPath}")
-        val uploadTask = imageRef.putFile(state.value.imageUri!!)
-
-        uploadTask.addOnSuccessListener { _ ->
-            getUrlFromUploadImage(imageRef)
-        }.addOnFailureListener { e ->
-            emitEffect(ContributeEffect.ShowError(e))
-            _state.update { it.copy(isLoading = false) }
-        }
-    }
-
-    private fun getUrlFromUploadImage(imageRef: StorageReference) {
-        imageRef.downloadUrl.addOnSuccessListener { uri ->
-            val imageUrl = uri.toString()
-
-            _state.update {
-                it.copy(
-                    shootingPlace = it.shootingPlace.copy(
-                        moviePosterUrl = imageUrl
-                    )
-                )
-            }
-
-            publishMemory()
-        }.addOnFailureListener { error ->
-            emitEffect(ContributeEffect.ShowError(error))
-            _state.update { it.copy(isLoading = false) }
         }
     }
 
@@ -145,7 +108,17 @@ class ContributeViewModel(
     private fun publishMemory() {
         val memoriesCollection = Firebase.firestore.collection("shooting_place")
 
-        memoriesCollection.add(_state.value.shootingPlace)
+        val selectedMovie = _state.value.selectedMovie
+        memoriesCollection.add(
+            _state.value.shootingPlace.copy(
+                title = selectedMovie?.title ?: "",
+                director = selectedMovie?.credits?.crew?.find { it.job == "Director" }?.name ?: "",
+                releaseDate = selectedMovie?.releaseDate ?: "",
+                synopsis = selectedMovie?.overview ?: "",
+                contributorId = _state.value.userData?.userId ?: "",
+                moviePosterUrl = selectedMovie?.poster
+            )
+        )
             .addOnSuccessListener {
                 _state.update { it.copy(isLoading = false) }
                 emitEffect(ContributeEffect.NavigateBack)
@@ -161,11 +134,17 @@ class ContributeViewModel(
         viewModelScope.launch {
             movieRepository.getMoviesById(id)
                 .collect { result ->
-                    result.onSuccess {
-                        Log.d("tag", it.toString())
+                    result.onSuccess { data ->
+                        _state.update {
+                            it.copy(
+                                isLoading = false,
+                                selectedMovie = data
+                            )
+                        }
                     }
-                    result.onFailure {
-
+                    result.onFailure { e ->
+                        _state.update { it.copy(isLoading = false) }
+                        emitEffect(ContributeEffect.ShowError(e))
                     }
                 }
         }
@@ -177,11 +156,16 @@ class ContributeViewModel(
         viewModelScope.launch {
             movieRepository.searchMoviesByTitle(query)
                 .collect { result ->
-                    result.onSuccess {
-                        Log.d("tag", it.toString())
+                    result.onSuccess { data ->
+                        _state.update {
+                            it.copy(
+                                isLoading = false,
+                                searchResult = data.take(10)
+                            )
+                        }
                     }
                     result.onFailure {
-
+                        emitEffect(ContributeEffect.ShowError(it))
                     }
                 }
         }
