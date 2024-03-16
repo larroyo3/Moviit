@@ -27,8 +27,9 @@
     <string name="close">Fermer</string>
     <string name="publish_memories">Ajouter un souvenir</string>
     <string name="memory">Mon Souvenir</string>
-    <string name="memories">Mes souvenirs</string>
+    <string name="memories">Souvenirs</string>
     <string name="publication">Publication</string>
     <string name="just_now">A l\'instant</string>
     <string name="add_image">Ajouter une photo</string>
+    <string name="contribution">Contributions</string>
 </resources>

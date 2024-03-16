@@ -36,9 +36,9 @@ fun MemoryPublication(
 ) {
     Column(
         modifier = Modifier
-            .padding(vertical = 8.dp),
     ) {
         if (profileSection) {
+            Spacer(modifier = Modifier.height(8.dp))
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -74,9 +74,9 @@ fun MemoryPublication(
                     )
                 }
             }
+            Spacer(modifier = Modifier.height(12.dp))
         }
 
-        Spacer(modifier = Modifier.height(12.dp))
         AsyncImage(
             model = ImageRequest
                 .Builder(context)
@@ -105,6 +105,7 @@ fun MemoryPublication(
             )
         }
     }
+    Spacer(modifier = Modifier.height(8.dp))
 }
 
 @Preview(showBackground = true)
