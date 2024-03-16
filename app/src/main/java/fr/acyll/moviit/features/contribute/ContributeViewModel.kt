@@ -1,18 +1,13 @@
 package fr.acyll.moviit.features.contribute
 
-import android.content.Context
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.android.gms.auth.api.identity.Identity
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import fr.acyll.moviit.features.main.settings.SettingsEffect
-import fr.acyll.moviit.features.main.settings.SettingsEvent
-import fr.acyll.moviit.features.main.settings.SettingsState
-import fr.acyll.moviit.features.onboarding.auth.GoogleAuthUiClient
-import fr.acyll.moviit.features.publish.PublishEffect
+import fr.acyll.moviit.domain.repository.MovieRepository
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -20,7 +15,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class ContributeViewModel: ViewModel() {
+class ContributeViewModel(
+    private val movieRepository: MovieRepository
+): ViewModel() {
 
     private val _state = MutableStateFlow(ContributeState())
     val state = _state.asStateFlow()
@@ -38,6 +35,8 @@ class ContributeViewModel: ViewModel() {
                         )
                     )
                 }
+
+                searchMoviesByTitle(event.value)
             }
 
             is ContributeEvent.OnDirectorChange -> {
@@ -154,5 +153,37 @@ class ContributeViewModel: ViewModel() {
                 _state.update { it.copy(isLoading = false) }
                 emitEffect(ContributeEffect.ShowError(e))
             }
+    }
+
+    private fun getMoviesById(id: Int) {
+        _state.update { it.copy(isLoading = true) }
+
+        viewModelScope.launch {
+            movieRepository.getMoviesById(id)
+                .collect { result ->
+                    result.onSuccess {
+                        Log.d("tag", it.toString())
+                    }
+                    result.onFailure {
+
+                    }
+                }
+        }
+    }
+
+    private fun searchMoviesByTitle(query: String) {
+        _state.update { it.copy(isLoading = true) }
+
+        viewModelScope.launch {
+            movieRepository.searchMoviesByTitle(query)
+                .collect { result ->
+                    result.onSuccess {
+                        Log.d("tag", it.toString())
+                    }
+                    result.onFailure {
+
+                    }
+                }
+        }
     }
 }

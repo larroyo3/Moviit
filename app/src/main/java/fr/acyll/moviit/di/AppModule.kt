@@ -21,7 +21,7 @@ val appModule = module {
     viewModel { MapViewModel() }
 
     // Feature Contribute
-    viewModel { ContributeViewModel() }
+    viewModel { ContributeViewModel(get()) }
 
     // Feature Publish
     viewModel { PublishViewModel(context = androidContext()) }
