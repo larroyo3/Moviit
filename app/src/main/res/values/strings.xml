@@ -37,4 +37,5 @@
     <string name="place_informations">Lieu de tournage</string>
     <string name="name">Nom</string>
     <string name="contribution">Contributions</string>
+    <string name="language">Langues</string>
 </resources>

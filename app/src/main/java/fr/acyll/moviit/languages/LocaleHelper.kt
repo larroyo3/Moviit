@@ -1,4 +1,4 @@
-package fr.acyll.moviit
+package fr.acyll.moviit.languages
 
 import android.content.Context
 import android.content.res.Configuration
