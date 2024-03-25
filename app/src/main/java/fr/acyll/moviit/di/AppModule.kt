@@ -17,7 +17,7 @@ val appModule = module {
     // Feature Home
     viewModel { AccountViewModel(context = androidContext()) }
     viewModel { SettingsViewModel(context = androidContext())}
-    viewModel { HomeViewModel() }
+    viewModel { HomeViewModel(get()) }
     viewModel { MapViewModel() }
 
     // Feature Contribute

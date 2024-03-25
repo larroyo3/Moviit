@@ -31,16 +31,10 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
-import fr.acyll.moviit.R
 import fr.acyll.moviit.components.MemoryPublication
 import fr.acyll.moviit.components.NoActionBarScreenContainer
+import fr.acyll.moviit.components.SearchBarM3
 import fr.acyll.moviit.domain.model.Memories
-import fr.acyll.moviit.features.contribute.ContributeEffect
-import fr.acyll.moviit.features.contribute.ContributeState
-import fr.acyll.moviit.ui.theme.MoviitTheme
-import fr.acyll.moviit.utils.ComposableDateUtils.getLabelFromDate
 import kotlinx.coroutines.flow.collectLatest
 import java.util.Date
 
@@ -65,7 +59,10 @@ fun HomeScreen(
     NoActionBarScreenContainer {
        ScreenContent(
            state = state,
-           context = context
+           context = context,
+           onEvent = {
+               viewModel.onEvent(it)
+           }
        )
     }
 }
@@ -73,13 +70,27 @@ fun HomeScreen(
 @Composable
 fun ScreenContent(
     state: HomeState,
-    context: Context
+    context: Context,
+    onEvent: (HomeEvent) -> Unit
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
     ) {
+        SearchBarM3(
+            query = state.query,
+            active = state.active,
+            searchResult = state.searchResult,
+            onQueryChange = { onEvent(HomeEvent.OnQueryChange(it)) },
+            onSearch = { onEvent(HomeEvent.OnSearch(it)) },
+            onCloseSearch = { onEvent(HomeEvent.OnCloseSearch) },
+            onDeleteQuery = { onEvent(HomeEvent.OnDeleteQuery) },
+            onActiveChange = { onEvent(HomeEvent.OnActiveChange(it)) }
+        )
         LazyColumn {
+            item {
+                Spacer(modifier = Modifier.height(16.dp))
+            }
             items(state.memories) { memory ->
                 MemoryPublication(memory = memory, context = context)
             }
@@ -113,6 +124,7 @@ fun MainPreview() {
                 ),
             )
         ),
-        context = LocalContext.current
+        context = LocalContext.current,
+        onEvent = {}
     )
 }
