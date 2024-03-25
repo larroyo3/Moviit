@@ -18,7 +18,7 @@ val appModule = module {
     viewModel { AccountViewModel(context = androidContext()) }
     viewModel { SettingsViewModel(context = androidContext())}
     viewModel { HomeViewModel(get()) }
-    viewModel { MapViewModel() }
+    viewModel { MapViewModel(get()) }
 
     // Feature Contribute
     viewModel { ContributeViewModel(get(), context = androidContext()) }
