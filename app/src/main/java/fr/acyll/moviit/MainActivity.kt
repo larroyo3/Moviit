@@ -29,6 +29,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        /*
         val sharedPreference = getSharedPreferences("USER_VARIABLES", Context.MODE_PRIVATE)
         when (sharedPreference.getInt("language_selected", Languages.FRANCAIS.ordinal)) {
             Languages.FRANCAIS.ordinal -> LocaleHelper.setLocale(this, "fr")
@@ -36,6 +37,7 @@ class MainActivity : ComponentActivity() {
             Languages.ESPANOL.ordinal -> LocaleHelper.setLocale(this, "es")
             else -> LocaleHelper.setLocale(this, "fr")
         }
+         */
 
         setContent {
             val navController = rememberNavController()
