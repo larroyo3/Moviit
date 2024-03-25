@@ -2,6 +2,7 @@ package fr.acyll.moviit.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
@@ -42,7 +43,7 @@ fun SearchBarM3(
 
     SearchBar(
         shape = MaterialTheme.shapes.large,
-        modifier = Modifier.padding(horizontal = if (active) 0.dp else 8.dp, vertical = if (active) 0.dp else 8.dp),
+        modifier = Modifier.fillMaxWidth().padding(horizontal = if (active) 0.dp else 8.dp, vertical = if (active) 0.dp else 8.dp),
         query = query,
         onQueryChange = onQueryChange,
         onSearch = onSearch,
