@@ -1,5 +1,6 @@
 package fr.acyll.moviit
 
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -25,6 +26,14 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val sharedPreference = getSharedPreferences("USER_VARIABLES", Context.MODE_PRIVATE)
+        when (sharedPreference.getInt("language_selected", Languages.FRANCAIS.ordinal)) {
+            Languages.FRANCAIS.ordinal -> LocaleHelper.setLocale(this, "fr")
+            Languages.ENGLISH.ordinal -> LocaleHelper.setLocale(this, "en")
+            Languages.SPANISH.ordinal -> LocaleHelper.setLocale(this, "es")
+            else -> LocaleHelper.setLocale(this, "fr")
+        }
 
         setContent {
             val navController = rememberNavController()

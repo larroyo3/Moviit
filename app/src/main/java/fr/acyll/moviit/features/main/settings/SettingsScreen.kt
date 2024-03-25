@@ -1,6 +1,13 @@
 package fr.acyll.moviit.features.main.settings
 
+import android.app.LocaleManager
+import android.content.Context
+import android.content.res.Configuration
 import android.graphics.drawable.Icon
+import android.os.Build
+import android.os.LocaleList
+import android.util.Log
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -26,12 +33,17 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import fr.acyll.moviit.Languages
+import fr.acyll.moviit.LocaleHelper
 import fr.acyll.moviit.R
 import fr.acyll.moviit.components.NoActionBarScreenContainer
 import fr.acyll.moviit.components.PrimaryButton
+import fr.acyll.moviit.navigation.BottomNavScreen
 import fr.acyll.moviit.navigation.Screen
 import kotlinx.coroutines.flow.collectLatest
+import java.util.Locale
 
 @Composable
 fun SettingsScreen(
@@ -70,6 +82,12 @@ fun ScreenContent(
     onEvent: (SettingsEvent) -> Unit,
     navigateToScreen: (String) -> Unit
 ) {
+    val context = LocalContext.current
+
+    val sharedPreference = context.getSharedPreferences("USER_VARIABLES", Context.MODE_PRIVATE)
+    val editorLanguage = sharedPreference.edit()
+
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -82,7 +100,12 @@ fun ScreenContent(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .clickable { navigateToScreen(Screen.Contribute.route) }
+                .clickable {
+                    //navigateToScreen(Screen.Contribute.route)
+                    editorLanguage?.putInt("language_selected", Languages.FRANCAIS.ordinal)?.apply()
+                    LocaleHelper.setLocale(context, "fr")
+                    //navigateToScreen(BottomNavScreen.Home.route)
+                }
                 .padding(16.dp)
         ) {
             Text(
