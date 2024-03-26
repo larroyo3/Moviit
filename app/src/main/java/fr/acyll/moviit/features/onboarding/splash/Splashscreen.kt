@@ -1,5 +1,7 @@
 package fr.acyll.moviit.features.onboarding.splash
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.view.animation.OvershootInterpolator
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationVector1D
@@ -22,6 +24,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -29,6 +32,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import fr.acyll.moviit.R
+import fr.acyll.moviit.languages.Languages
+import fr.acyll.moviit.languages.LocaleHelper
 import fr.acyll.moviit.ui.theme.MoviitTheme
 import fr.acyll.moviit.ui.theme.OldLace
 import kotlinx.coroutines.delay
@@ -38,6 +43,7 @@ fun SplashScreen(
     navigateToNextScreen: () -> Unit
 ) {
     val scale = remember { Animatable(0.0f) }
+    val context = LocalContext.current
 
     LaunchedEffect(key1 = Unit) {
         scale.animateTo(

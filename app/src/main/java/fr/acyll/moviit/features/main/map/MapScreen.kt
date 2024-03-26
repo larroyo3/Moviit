@@ -1,6 +1,7 @@
 package fr.acyll.moviit.features.main.map
 
 import android.widget.Toast
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
@@ -25,6 +26,8 @@ import com.google.maps.android.compose.MarkerComposable
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
 import fr.acyll.moviit.components.NoActionBarScreenContainer
+import fr.acyll.moviit.components.SearchBarM3
+import fr.acyll.moviit.features.main.home.HomeEvent
 import fr.acyll.moviit.features.main.map.components.MarkerBottomSheet
 import fr.acyll.moviit.navigation.Screen
 import kotlinx.coroutines.flow.collectLatest
@@ -72,7 +75,7 @@ fun ScreenContent(
         position = CameraPosition.fromLatLngZoom(LatLng(45.763420, 4.834277), 9f)
     }
 
-    Column(
+    Box(
         modifier = Modifier
             .fillMaxSize()
     ) {
@@ -108,6 +111,17 @@ fun ScreenContent(
                 }
             }
         }
+
+        SearchBarM3(
+            query = state.query,
+            active = state.active,
+            searchResult = state.searchResult,
+            onQueryChange = { onEvent(MapEvent.OnQueryChange(it)) },
+            onSearch = { onEvent(MapEvent.OnSearch(it)) },
+            onCloseSearch = { onEvent(MapEvent.OnCloseSearch) },
+            onDeleteQuery = { onEvent(MapEvent.OnDeleteQuery) },
+            onActiveChange = { onEvent(MapEvent.OnActiveChange(it)) }
+        )
 
         if (state.showMarkerBottomSheet) {
             MarkerBottomSheet(

@@ -41,13 +41,11 @@ fun PrimaryButton(
     }
 }
 
-@Preview
+@Preview()
 @Composable
 fun PrimaryButtonDP() {
-    MoviitTheme {
         PrimaryButton(
             label = stringResource(R.string.continuer),
             onClick = {}
         )
-    }
 }

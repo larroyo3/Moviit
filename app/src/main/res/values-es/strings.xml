@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:locale="es">
+    <string name="app_name">Moviit</string>
+    <string name="continuer">Continuar</string>
+    <string name="home">Inicio</string>
+    <string name="map">Mapa</string>
+    <string name="account">Cuenta</string>
+    <string name="settings">Ajustes</string>
+    <string name="log_out">Cerrar sesión</string>
+    <string name="auth_title">¡La aventura acaba de comenzar. Bienvenido a Moviit!</string>
+    <string name="auth_desc">Es simple: haz clic en el botón para crear una cuenta o iniciar sesión.</string>
+
+    <string name="web_client_id">1002693502918-feph49j3jhchb919kldqdor3pg7phe5s.apps.googleusercontent.com</string>
+    <string name="contribute">Contribuir</string>
+    <string name="add_shooting_location">Agregar un lugar de rodaje</string>
+    <string name="add">Agregar</string>
+    <string name="movie_information">Información de la película</string>
+    <string name="confirm">Confirmar</string>
+    <string name="title">Título</string>
+    <string name="director">Director</string>
+    <string name="release_date">Fecha de lanzamiento</string>
+    <string name="synopsis">Sinopsis</string>
+    <string name="shooting_place">Lugar de rodaje</string>
+    <string name="description">Descripción</string>
+    <string name="localisation">Localización</string>
+    <string name="latitude">Latitud</string>
+    <string name="longitude">Longitud</string>
+    <string name="close">Cerrar</string>
+    <string name="publish_memories">Agregar un recuerdo</string>
+    <string name="memory">Mi Recuerdo</string>
+    <string name="memories">Recuerdos</string>
+    <string name="publication">Publicación</string>
+    <string name="just_now">Justo ahora</string>
+    <string name="add_image">Agregar una imagen</string>
+    <string name="select_movie">Seleccionar una película</string>
+    <string name="place">Lugar</string>
+    <string name="place_informations">Lugar de rodaje</string>
+    <string name="name">Nombre</string>
+    <string name="contribution">Contribuciones</string>
+</resources>
